@@ -7,7 +7,8 @@ import VueAxios from 'vue-axios'
 import VueSocketIO from 'vue-socket.io'
 
 Vue.use(VueAxios, axios)
-Vue.use(new VueSocketIO({ connection: 'http://94.191.48.238' }))
+const url = process.env.VUE_APP_DOMAIN || 'http://94.191.48.238'
+Vue.use(new VueSocketIO({ connection: url }))
 
 Vue.config.productionTip = false
 
