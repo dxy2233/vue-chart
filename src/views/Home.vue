@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="nav">
-      房间
+      <p v-for="(item,index) in numList" :key="index">{{ item }}</p>
     </div>
     <div class="page">
       <div class="header">用户名:{{ $store.state.userName }}，在线人数{{ num }}</div>
@@ -10,7 +10,7 @@
           <p v-for="(item,index) in info" :key="index">{{ item.user }}：{{ item.content }}</p>
         </div>
         <div class="entry">
-          <input v-model="enter" @keyup.enter="sendMessage">
+          <textarea v-model="enter" @keydown.stop.prevent.enter="sendMessage"/>
           <button @click="sendMessage">发送</button>
         </div>
       </div>
@@ -23,8 +23,8 @@ export default {
   name: 'Home',
   data () {
     return {
-      id: '',
       num: '',
+      numList: [],
       enter: '',
       info: []
     }
@@ -39,11 +39,9 @@ export default {
     }
   },
   sockets: {
-    id (data) {
-      this.id = data
-    },
-    num (data) {
-      this.num = data
+    numList (data) {
+      this.numList = data.content
+      this.num = this.numList.length
     },
     message (data) {
       this.info.push(data)
@@ -62,36 +60,73 @@ export default {
 }
 
 .nav {
-  background: #281f1d;
   width: 150px;
   height: 100vh;
+  background: #2C3E50;
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  p {
+    padding-bottom: 5px;
+  }
+  &::-webkit-scrollbar{
+    display: none;
+  }
 }
 
 .page {
   width: calc(100vw - 150px);
   height: 100vh;
   .header {
-    height: 80px;
-    line-height: 80px;
-    background: #7bbfea;
+    height: 60px;
+    line-height: 60px;
+    background: #99CCFF;
+    text-align: center;
   }
   .screen {
-    height: calc(100vh - 80px - 100px);
-    background: #afdfe4;
+    height: calc(100vh - 60px - 80px);
+    background: #EFF7FF;
     overflow-y: auto;
+    padding: 20px;
     p {
       text-align: left;
     }
   }
   .entry {
-    height: 100px;
+    height: 80px;
     display: flex;
-    input {
+    textarea {
       flex: 10;
+      line-height: 1.5;
+      padding: 20px;
+      resize: none;
+      overflow: hidden;
+      font-size: 16px;
     }
     button {
-      flex: 1;
+      flex: 2;
+      color: #fff;
+      background: #409EFF;
+      border: none;
+      &:hover {
+        background: #66b1ff;
+        cursor: pointer;
+      }
+      &:active {
+        background: #3a8ee6;
+      }
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .nav {
+    display: none;
+  }
+  .page {
+    width: 100vw;
   }
 }
 </style>

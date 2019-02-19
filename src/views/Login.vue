@@ -1,8 +1,8 @@
 <template>
   <div class="login">
     <div class="wrap">
-      <p>昵称</p>
-      <input v-model="userName" @keyup.enter="linkStart">
+      <p>请输入昵称</p>
+      <input v-model.trim="userName" @keyup.enter="linkStart">
       <button @click="linkStart">登录</button>
     </div>
   </div>
@@ -36,24 +36,45 @@ export default {
 .login {
   width: 100vw;
   height: 100vh;
-  background: #feeeed;
+  background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .wrap {
   width: 200px;
-  margin: 0 auto;
-  padding-top: 20%;
+  padding-bottom: 100px;
   display: flex;
   flex-flow: column;
   * {
     margin-bottom: 20px;
+    border-radius: 10px;
+    outline: none;
+    text-align: center;
   }
   input {
     height: 30px;
-    text-align: center;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    &:focus {
+      border-color: #66afe9;
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    }
   }
   button {
     height: 30px;
+    color: #fff;
+    background: #409EFF;
+    border: none;
+    &:hover {
+      background: #66b1ff;
+      cursor: pointer;
+    }
+    &:active {
+      background: #3a8ee6;
+    }
   }
 }
 </style>
